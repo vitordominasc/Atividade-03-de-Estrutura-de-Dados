@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokemon Battle Arena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1 class="pixel-font">CHAMPIONSHIP ARENA</h1>
+  </header>
+
+  <main>
+
+    <aside id="queue-panel">
+      <div class="panel-header">
+        <span class="pixel-font panel-title">FILA</span>
+        <span class="pixel-font" id="queue-count">0/8</span>
+      </div>
+      <ul id="challenger-list"></ul>
+    </aside>
+
+    <section id="center-panel">
+
+      <div id="boss-panel">
+        <div id="boss-loading" class="loading-text pixel-font">Carregando...</div>
+        <div id="boss-content" class="hidden">
+          <img id="boss-sprite" src="" alt="Boss" />
+          <div id="boss-info">
+            <span class="pixel-font boss-label">CAMPEÃO INVICTO</span>
+            <h2 id="boss-name" class="pixel-font"></h2>
+            <div id="boss-types"></div>
+            <div class="stat-row">
+              <span class="stat-badge" id="boss-bst"></span>
+            </div>
+            <div class="kills-row">
+              <span class="kills-label">DERROTAS CAUSADAS:</span>
+              <span class="pixel-font kills-count" id="boss-kills">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="battle-panel">
+        <div id="battle-idle" class="pixel-font idle-text">ARENA PRONTA</div>
+
+        <div id="battle-active" class="hidden">
+          <div class="fighter" id="challenger-side">
+            <img class="battle-sprite" id="battle-challenger-sprite" src="" alt="" />
+            <div class="fighter-name pixel-font" id="battle-challenger-pokemon"></div>
+            <div class="fighter-trainer" id="battle-challenger-trainer"></div>
+            <div class="fighter-types" id="battle-challenger-types"></div>
+            <div class="fighter-bst" id="battle-challenger-bst"></div>
+          </div>
+
+          <div class="vs-block">
+            <span class="pixel-font vs-text">VS</span>
+          </div>
+
+          <div class="fighter" id="boss-side">
+            <img class="battle-sprite" id="battle-boss-sprite" src="" alt="Mewtwo" />
+            <div class="fighter-name pixel-font" id="battle-boss-name"></div>
+            <div class="fighter-types" id="battle-boss-types"></div>
+            <div class="fighter-bst" id="battle-boss-bst"></div>
+          </div>
+        </div>
+
+        <div id="battle-result" class="hidden">
+          <div id="result-text" class="pixel-font result-text"></div>
+        </div>
+      </div>
+
+      <button id="battle-btn" class="pixel-font battle-button" data-testid="button-batalhar">
+        BATALHAR
+      </button>
+
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
