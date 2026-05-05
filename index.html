@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transportadora - Fila de Entregas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="brand-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/>
+              <path d="M15 18H9"/>
+              <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/>
+              <circle cx="17" cy="18" r="2"/>
+              <circle cx="7" cy="18" r="2"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <h1>Transportadora</h1>
+            <p>Logística de Bairro Rápida & Eficiente</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="grid">
+        <!-- Coluna esquerda: novo pacote + fila -->
+        <div class="col-main">
+          <!-- Card novo pacote -->
+          <article class="card">
+            <header class="card-header">
+              <span class="card-icon icon-orange">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16.5 9.4 7.55 4.24"/>
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                  <line x1="12" y1="22.08" x2="12" y2="12"/>
+                </svg>
+              </span>
+              <h2>Novo Pacote</h2>
+            </header>
+
+            <!-- Estado: vazio (gerar destinatário) -->
+            <div id="generator-empty" class="generator-empty">
+              <div class="empty-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m7.5 4.27 9 5.15"/>
+                  <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                  <path d="m3.3 7 8.7 5 8.7-5"/>
+                  <path d="M12 22V12"/>
+                </svg>
+              </div>
+              <h3>Aguardando novos pacotes</h3>
+              <p>Gere um destinatário aleatório para adicionar um novo pacote à fila de entregas.</p>
+              <button id="btn-generate" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                <span>Gerar Destinatário</span>
+              </button>
+            </div>
+
+            <!-- Estado: carregando -->
+            <div id="generator-loading" class="generator-loading hidden">
+              <div class="spinner" aria-hidden="true"></div>
+              <p>Buscando destinatário...</p>
+            </div>
+
+            <!-- Estado: preview/edição -->
+            <div id="generator-preview" class="generator-preview hidden">
+              <div class="preview-header">
+                <span class="badge badge-soft">Pré-visualização</span>
+                <button id="btn-regenerate" class="btn-link" type="button">Gerar outro</button>
+              </div>
+
+              <form id="form-package" class="form" autocomplete="off">
+                <div class="field">
+                  <label for="input-name">Destinatário</label>
+                  <input id="input-name" name="name" type="text" required />
+                </div>
+                <div class="field">
+                  <label for="input-address">Endereço</label>
+                  <textarea id="input-address" name="address" rows="3" required></textarea>
+                </div>
+                <div class="form-actions">
+                  <button type="button" id="btn-cancel" class="btn btn-ghost">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                      <line x1="12" y1="5" x2="12" y2="19"/>
+                      <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    <span>Adicionar à Fila</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </article>
+
+          <!-- Fila de entregas -->
+          <article class="card">
+            <header class="card-header card-header-row">
+              <div class="card-header-left">
+                <span class="card-icon icon-blue">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                </span>
+                <h2>Fila de Entregas <span class="muted">(FIFO)</span></h2>
+              </div>
+              <span id="queue-count" class="badge badge-blue">0 pendentes</span>
+            </header>
+
+            <!-- Estado vazio -->
+            <div id="queue-empty" class="empty-state">
+              <div class="empty-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              <h3>Nenhum pacote na fila</h3>
+              <p>Gere um destinatário acima para começar a despachar pacotes.</p>
+            </div>
+
+            <ul id="queue-list" class="queue-list hidden"></ul>
+          </article>
+        </div>
+
+        <!-- Coluna direita: histórico -->
+        <aside class="col-side">
+          <article class="card card-history">
+            <header class="card-header card-header-row">
+              <div class="card-header-left">
+                <span class="card-icon icon-blue">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                  </svg>
+                </span>
+                <h2>Histórico</h2>
+              </div>
+            </header>
+
+            <div class="stats">
+              <div class="stat">
+                <span class="stat-label">Entregas</span>
+                <span id="stat-total" class="stat-value">0</span>
+              </div>
+              <div class="stat">
+                <span class="stat-label">Espera Média</span>
+                <span id="stat-avg" class="stat-value">—</span>
+              </div>
+            </div>
+
+            <!-- Estado vazio -->
+            <div id="history-empty" class="empty-state empty-state-sm">
+              <div class="empty-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </div>
+              <p>Nenhuma entrega realizada ainda.</p>
+            </div>
+
+            <ul id="history-list" class="history-list hidden"></ul>
+
+            <button id="btn-clear-history" class="btn-link btn-clear hidden" type="button">
+              Limpar histórico
+            </button>
+          </article>
+        </aside>
+      </section>
+    </main>
+
+    <!-- Toast de confirmação -->
+    <div id="toast" class="toast hidden" role="status" aria-live="polite">
+      <div class="toast-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <div class="toast-body">
+        <strong id="toast-title">Pacote entregue</strong>
+        <span id="toast-text">—</span>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
